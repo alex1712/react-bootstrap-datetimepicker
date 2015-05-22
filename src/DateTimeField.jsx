@@ -18,7 +18,7 @@ DateTimeField = React.createClass({
     inputProps: React.PropTypes.object,
     inputFormat: React.PropTypes.string,
     defaultText: React.PropTypes.string,
-    mode: React.PropTypes.oneOf([Constants.MODE_DATE, Constants.MODE_DATETIME, Constants.MODE_TIME])
+    mode: React.PropTypes.oneOf([Constants.MODE_DATE, Constants.MODE_DATETIME, Constants.MODE_TIME]),
     minDate: React.PropTypes.object,
     maxDate: React.PropTypes.object
   },
