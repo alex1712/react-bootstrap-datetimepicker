@@ -290,6 +290,10 @@ DateTimeField = React.createClass({
     }
   },
   render: function() {
+    var inputClasses = React.addons.classSet({
+      'form-control': true,
+      placeholder: this.props.defaultText === this.state.inputValue
+    });
     return (
           <div>
             {this.renderOverlay()}
@@ -325,7 +329,7 @@ DateTimeField = React.createClass({
                   togglePeriod={this.togglePeriod}
             />
             <div className="input-group date" ref="datetimepicker">
-              <input type="text" className="form-control" onChange={this.onChange} value={this.state.inputValue} {...this.props.inputProps}/>
+              <input type="text" className={inputClasses} onChange={this.onChange} value={this.state.inputValue} {...this.props.inputProps}/>
               <span className="input-group-addon" onClick={this.onClick} onBlur={this.onBlur} ref="dtpbutton"><Glyphicon glyph={this.state.buttonIcon} /></span>
             </div>
           </div>
