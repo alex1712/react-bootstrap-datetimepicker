@@ -88,7 +88,7 @@ DateTimeField = React.createClass({
   },
   setSelectedDate: function(e) {
     var target = e.target;
-    if (e.target.className && !e.target.className.match(/disabled/g)) {
+    if (target.className && !target.className.match(/disabled/g)) {
       var month;
       if(target.className.includes("new")) month = this.state.viewDate.month() + 1;
       else if(target.className.includes("old")) month = this.state.viewDate.month() - 1;
