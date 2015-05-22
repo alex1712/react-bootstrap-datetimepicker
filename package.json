@@ -1,5 +1,5 @@
 {
-  "name": "@alex1712/react-bootstrap-datetimepicker",
+  "name": "mnq-react-bootstrap-datetimepicker",
   "version": "0.0.15",
   "description": "A bootstrap datetime picker component for React.js",
   "repository": {
