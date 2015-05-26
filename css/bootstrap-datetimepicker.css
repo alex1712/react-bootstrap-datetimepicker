@@ -191,6 +191,13 @@
   width: 16px;
   height: 16px;
 }
+.input-group.date span.input-group-clear {
+  cursor: pointer;
+  position: absolute;
+  z-index: 10;
+  right: 11%;
+  line-height: 32px;
+}
 .bootstrap-datetimepicker-widget.left-oriented:before {
   left: auto;
   right: 6px;

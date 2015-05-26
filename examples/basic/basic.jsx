@@ -89,7 +89,23 @@ var Basic = React.createClass({
 					<div className="col-xs-12">
 						Empty
 						<DateTimeField />
-						<pre> {'<DateTimeField clearable={true} />'} </pre>
+						<pre> {'<DateTimeField />'} </pre>
+					</div>
+				</div>
+				<div className="row">
+					<div className="col-xs-12">
+						Initial Value
+						<DateTimeField value="1432646785289" clearable={true}  />
+						<pre> {'<DateTimeField value="1432646785289" clearable={true} />'} </pre>
+					</div>
+				</div>
+				<div className="row">
+					<div className="col-xs-12">
+						disables
+						<DateTimeField disabled={true}/>
+						<pre> {'<DateTimeField disabled={true} />'} </pre>
+						<DateTimeField disabled={true} value="1432646535471"/>
+						<pre> {'<DateTimeField disabled={true} />'} </pre>
 					</div>
 				</div>
 			</div>

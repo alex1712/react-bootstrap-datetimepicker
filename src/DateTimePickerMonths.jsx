@@ -14,7 +14,7 @@ DateTimePickerMonths = React.createClass({
     showYears: React.PropTypes.func.isRequired,
     setViewMonth: React.PropTypes.func.isRequired
   },
-  getSelectedDate() {
+  getSelectedDate: function() {
     return this.props.selectedDate ? this.props.selectedDate : this.props.viewDate;
   },
   renderMonths: function() {

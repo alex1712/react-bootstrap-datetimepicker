@@ -14,7 +14,7 @@ Constants = require('./Constants');
 DateTimeField = React.createClass({
   propTypes: {
     dateTime: React.PropTypes.string,
-    defaultValue: React.PropTypes.string,
+    value: React.PropTypes.string,
     onChange: React.PropTypes.func,
     format: React.PropTypes.string,
     inputProps: React.PropTypes.object,
@@ -23,11 +23,13 @@ DateTimeField = React.createClass({
     mode: React.PropTypes.oneOf([Constants.MODE_DATE, Constants.MODE_DATETIME, Constants.MODE_TIME]),
     minDate: React.PropTypes.object,
     maxDate: React.PropTypes.object,
-    clearable: React.PropTypes.bool
+    clearable: React.PropTypes.bool,
+    disabled: React.PropTypes.bool
   },
   getDefaultProps: function() {
     return {
-      clearable: true,
+      disabled: false,
+      clearable: false,
       format: 'x',
       showToday: true,
       viewMode: 'days',
@@ -37,9 +39,10 @@ DateTimeField = React.createClass({
       onChange: function (x) {}
     };
   },
-  resolvePropsInputFormat: function() {
-    if(this.props.inputFormat) return this.props.inputFormat;
-    switch(this.props.mode) {
+  resolvePropsInputFormat: function(props) {
+    props = props ? props : this.props;
+    if(props.inputFormat) return props.inputFormat;
+    switch(props.mode) {
       case Constants.MODE_TIME:
         return "h:mm A";
       case Constants.MODE_DATE:
@@ -61,19 +64,19 @@ DateTimeField = React.createClass({
         zIndex: '9999 !important'
       },
       viewDate: this.props.dateTime ? moment(this.props.dateTime, this.props.format, true).startOf("month") : moment().startOf("month"),
-      selectedDate: this.props.defaultValue ? moment(this.props.defaultValue, this.props.format, true) : null,
-      inputValue: typeof this.props.defaultValue != 'undefined' ?  moment(this.props.defaultValue, this.props.format, true).format(this.resolvePropsInputFormat()) : null
+      selectedDate: this.props.value ? moment(this.props.value, this.props.format, true) : null,
+      inputValue: typeof this.props.value != 'undefined' ?  moment(this.props.value, this.props.format, true).format(this.resolvePropsInputFormat()) : null
     };
   },
   getCurrentWorkingDate: function() {
     return this.state.selectedDate ? this.state.selectedDate : this.state.viewDate;
   },
   componentWillReceiveProps: function(nextProps) {
-    if(moment(nextProps.dateTime, nextProps.format, true).isValid()) {
+    if(this.props.value !== nextProps.value) {
       return this.setState({
-        viewDate: moment(nextProps.dateTime, nextProps.format, true).startOf("month"),
-        selectedDate: moment(nextProps.dateTime, nextProps.format, true),
-        inputValue: moment(nextProps.dateTime, nextProps.format, true).format(nextProps.inputFormat)
+        viewDate: nextProps.dateTime ? moment(nextProps.dateTime, nextProps.format, true).startOf("month") : moment().startOf("month"),
+        selectedDate: nextProps.value ? moment(nextProps.value, nextProps.format, true) : null,
+        inputValue: typeof nextProps.value != 'undefined' ?  moment(nextProps.value, nextProps.format, true).format(this.resolvePropsInputFormat(nextProps)) : null
       });
     }
   },
@@ -234,9 +237,12 @@ DateTimeField = React.createClass({
     this.state.selectedDate = null;
     this.state.inputValue = null;
     this.state.viewDate = moment().startOf('month');
-    this.forceUpdate();
+    this.forceUpdate(function() {
+      this.props.onChange(null);
+    });
   },
   onClick: function() {
+    if(this.props.disabled) return;
     var classes, gBCR, offset, placePosition, scrollTop, styles;
     if (this.state.showPicker) {
       return this.closePicker();
@@ -346,13 +352,14 @@ DateTimeField = React.createClass({
                   togglePeriod={this.togglePeriod}
             />
             <div className="input-group date" ref="datetimepicker">
-              <input type="text" className={inputClasses} onChange={this.onChange} onFocus={this.onClick} value={this.state.inputValue} placeholder={this.props.placeholder} {...this.props.inputProps}/>
+              <input type="text" className={inputClasses} onChange={this.onChange} onFocus={this.onClick} disabled={this.props.disabled}
+                     value={this.state.inputValue} placeholder={this.props.placeholder} {...this.props.inputProps}/>
               {
-                  this.props.clearable && this.state.selectedDate ?
-                      <span className="input-group-addon" onClick={this.clearDate}>x</span> :
+                  this.props.clearable && this.state.selectedDate && !this.props.disabled ?
+                      <span className="input-group-clear" onClick={this.clearDate}>×</span> :
                       null
               }
-              <span className="input-group-addon" onClick={this.onClick} onBlur={this.onBlur} ref="dtpbutton">
+              <span className="input-group-addon" onClick={this.onClick} onBlur={this.onBlur} ref="dtpbutton" disabled={this.props.disabled}>
                 <Glyphicon glyph={this.state.buttonIcon} />
               </span>
             </div>
