@@ -19,7 +19,7 @@ DateTimePickerTime = React.createClass({
     subtractMinute: React.PropTypes.func.isRequired,
     addMinute: React.PropTypes.func.isRequired,
     viewDate: React.PropTypes.object.isRequired,
-    selectedDate: React.PropTypes.object.isRequired,
+    selectedDate: React.PropTypes.object,
     togglePeriod: React.PropTypes.func.isRequired,
     mode: React.PropTypes.oneOf([Constants.MODE_DATE, Constants.MODE_DATETIME, Constants.MODE_TIME])
   },
@@ -76,15 +76,15 @@ DateTimePickerTime = React.createClass({
             </tr>
 
             <tr>
-              <td><span className="timepicker-hour" onClick={this.showHours}>{this.props.selectedDate.format('h')}</span></td>
+              <td><span className="timepicker-hour" onClick={this.showHours}>{this.props.viewDate.format('h')}</span></td>
 
               <td className="separator">:</td>
 
-              <td><span className="timepicker-minute" onClick={this.showMinutes}>{this.props.selectedDate.format('mm')}</span></td>
+              <td><span className="timepicker-minute" onClick={this.showMinutes}>{this.props.viewDate.format('mm')}</span></td>
 
               <td className="separator"></td>
 
-              <td><button className="btn btn-primary" onClick={this.props.togglePeriod} type="button">{this.props.selectedDate.format('A')}</button></td>
+              <td><button className="btn btn-primary" onClick={this.props.togglePeriod} type="button">{this.props.viewDate.format('A')}</button></td>
             </tr>
 
             <tr>

@@ -1,13 +1,14 @@
 var DateTimePickerYears, React;
 
 React = require('react/addons');
+classNames = require('classnames');
 
 DateTimePickerYears = React.createClass({
   propTypes: {
     subtractDecade: React.PropTypes.func.isRequired,
     addDecade: React.PropTypes.func.isRequired,
     viewDate: React.PropTypes.object.isRequired,
-    selectedDate: React.PropTypes.object.isRequired,
+    selectedDate: React.PropTypes.object,
     setViewYear: React.PropTypes.func.isRequired
   },
   renderYears: function() {
@@ -20,9 +21,9 @@ DateTimePickerYears = React.createClass({
       classes = {
         year: true,
         old: i === -1 | i === 10,
-        active: this.props.selectedDate.year() === year
+        active: this.props.viewDate.year() === year
       };
-      years.push(<span key={year} className={React.addons.classSet(classes)} onClick={this.props.setViewYear}>{year}</span>);
+      years.push(<span key={year} className={classNames(classes)} onClick={this.props.setViewYear}>{year}</span>);
       year++;
       i++;
     }

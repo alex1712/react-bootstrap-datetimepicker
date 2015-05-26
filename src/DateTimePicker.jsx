@@ -1,6 +1,7 @@
 var DateTimePicker, DateTimePickerDate, DateTimePickerTime, Glyphicon, React;
 
 React = require('react/addons');
+classNames = require('classnames');
 
 DateTimePickerDate = require('./DateTimePickerDate');
 
@@ -17,7 +18,7 @@ DateTimePicker = React.createClass({
     subtractMonth: React.PropTypes.func.isRequired,
     addMonth: React.PropTypes.func.isRequired,
     viewDate: React.PropTypes.object.isRequired,
-    selectedDate: React.PropTypes.object.isRequired,
+    selectedDate: React.PropTypes.object,
     showToday: React.PropTypes.bool,
     viewMode: React.PropTypes.oneOfType([
       React.PropTypes.string,
@@ -97,7 +98,7 @@ DateTimePicker = React.createClass({
   },
   render: function() {
     return (
-      <div className={React.addons.classSet(this.props.widgetClasses)} style={this.props.widgetStyle}>
+      <div className={classNames(this.props.widgetClasses)} style={this.props.widgetStyle}>
 
         <ul className="list-unstyled">
 

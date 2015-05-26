@@ -24,9 +24,9 @@ var Basic = React.createClass({
 					<div className="col-xs-12">
 						Example with default Text
 						<DateTimeField
-							defaultText="Please select a date"
+							placeholder="Please select a date"
 							/>
-						<pre> {'<DateTimeField defaultText="Please select a date" />'} </pre>
+						<pre> {'<DateTimeField placeholder="Please select a date" />'} </pre>
 					</div>
 				</div>
 				<div className="row">
@@ -74,6 +74,22 @@ var Basic = React.createClass({
 							maxDate={moment().add(1, 'days')}
 							/>
 						<pre> {'<DateTimeField daysOfWeekDisabled={[0,1,2]} />'} </pre>
+					</div>
+				</div>
+				<div className="row">
+					<div className="col-xs-12">
+						clearable
+						<DateTimeField
+							clearable={true}
+							/>
+						<pre> {'<DateTimeField clearable={true} />'} </pre>
+					</div>
+				</div>
+				<div className="row">
+					<div className="col-xs-12">
+						Empty
+						<DateTimeField />
+						<pre> {'<DateTimeField clearable={true} />'} </pre>
 					</div>
 				</div>
 			</div>

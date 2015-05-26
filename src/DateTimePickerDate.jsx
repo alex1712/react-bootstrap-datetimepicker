@@ -13,7 +13,7 @@ DateTimePickerDate = React.createClass({
     subtractMonth: React.PropTypes.func.isRequired,
     addMonth: React.PropTypes.func.isRequired,
     viewDate: React.PropTypes.object.isRequired,
-    selectedDate: React.PropTypes.object.isRequired,
+    selectedDate: React.PropTypes.object,
     showToday: React.PropTypes.bool,
     viewMode: React.PropTypes.oneOfType([
       React.PropTypes.string,

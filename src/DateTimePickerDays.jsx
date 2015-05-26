@@ -1,6 +1,7 @@
 var DateTimePickerDays, React, moment;
 
 React = require('react/addons');
+classNames = require('classnames');
 
 moment = require('moment');
 
@@ -9,7 +10,7 @@ DateTimePickerDays = React.createClass({
     subtractMonth: React.PropTypes.func.isRequired,
     addMonth: React.PropTypes.func.isRequired,
     viewDate: React.PropTypes.object.isRequired,
-    selectedDate: React.PropTypes.object.isRequired,
+    selectedDate: React.PropTypes.object,
     showToday: React.PropTypes.bool,
     daysOfWeekDisabled: React.PropTypes.array,
     setSelectedDate: React.PropTypes.func.isRequired,
@@ -22,8 +23,12 @@ DateTimePickerDays = React.createClass({
       showToday: true
     };
   },
+  getSelectedDate: function() {
+    return this.props.selectedDate ? this.props.selectedDate : this.props.viewDate;
+  },
   renderDays: function() {
-    var cells, classes, days, html, i, month, nextMonth, prevMonth, minDate, maxDate, row, year, _i, _len, _ref;
+    var selectedDate, cells, classes, days, html, i, month, nextMonth, prevMonth, minDate, maxDate, row, year, _i, _len, _ref;
+    selectedDate = this.getSelectedDate();
     year = this.props.viewDate.year();
     month = this.props.viewDate.month();
     prevMonth = this.props.viewDate.clone().subtract(1, "months");
@@ -43,10 +48,10 @@ DateTimePickerDays = React.createClass({
       } else if (prevMonth.year() > year || (prevMonth.year() === year && prevMonth.month() > month)) {
         classes['new'] = true;
       }
-      if (prevMonth.isSame(moment({
-        y: this.props.selectedDate.year(),
-        M: this.props.selectedDate.month(),
-        d: this.props.selectedDate.date()
+      if (this.props.selectedDate && prevMonth.isSame(moment({
+        y: selectedDate.year(),
+        M: selectedDate.month(),
+        d: selectedDate.date()
       }))) {
         classes['active'] = true;
       }
@@ -68,7 +73,7 @@ DateTimePickerDays = React.createClass({
           }
         }
       }
-      cells.push(<td key={prevMonth.month() + '-' + prevMonth.date()} className={React.addons.classSet(classes)} onClick={this.props.setSelectedDate}>{prevMonth.date()}</td>);
+      cells.push(<td key={prevMonth.month() + '-' + prevMonth.date()} className={classNames(classes)} onClick={this.props.setSelectedDate}>{prevMonth.date()}</td>);
       if (prevMonth.weekday() === moment().endOf('week').weekday()) {
         row = <tr key={prevMonth.month() + '-' + prevMonth.date()}>{cells}</tr>;
         html.push(row);

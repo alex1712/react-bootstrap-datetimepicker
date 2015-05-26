@@ -1,6 +1,7 @@
 var DateTimeField, DateTimePicker, Glyphicon, React, moment;
 
 React = require('react');
+classNames = require('classnames');
 
 DateTimePicker = require('./DateTimePicker');
 
@@ -13,23 +14,26 @@ Constants = require('./Constants');
 DateTimeField = React.createClass({
   propTypes: {
     dateTime: React.PropTypes.string,
+    defaultValue: React.PropTypes.string,
     onChange: React.PropTypes.func,
     format: React.PropTypes.string,
     inputProps: React.PropTypes.object,
     inputFormat: React.PropTypes.string,
-    defaultText: React.PropTypes.string,
+    placeholder: React.PropTypes.string,
     mode: React.PropTypes.oneOf([Constants.MODE_DATE, Constants.MODE_DATETIME, Constants.MODE_TIME]),
     minDate: React.PropTypes.object,
-    maxDate: React.PropTypes.object
+    maxDate: React.PropTypes.object,
+    clearable: React.PropTypes.bool
   },
   getDefaultProps: function() {
     return {
-      dateTime: moment().format('x'),
+      clearable: true,
       format: 'x',
       showToday: true,
       viewMode: 'days',
       daysOfWeekDisabled: [],
       mode: Constants.MODE_DATETIME,
+      placeholder: "Select a date",
       onChange: function (x) {}
     };
   },
@@ -56,10 +60,13 @@ DateTimeField = React.createClass({
         left: -9999,
         zIndex: '9999 !important'
       },
-      viewDate: moment(this.props.dateTime, this.props.format, true).startOf("month"),
-      selectedDate: moment(this.props.dateTime, this.props.format, true),
-      inputValue: typeof this.props.defaultText != 'undefined' ?  this.props.defaultText : moment(this.props.dateTime, this.props.format, true).format(this.resolvePropsInputFormat())
+      viewDate: this.props.dateTime ? moment(this.props.dateTime, this.props.format, true).startOf("month") : moment().startOf("month"),
+      selectedDate: this.props.defaultValue ? moment(this.props.defaultValue, this.props.format, true) : null,
+      inputValue: typeof this.props.defaultValue != 'undefined' ?  moment(this.props.defaultValue, this.props.format, true).format(this.resolvePropsInputFormat()) : null
     };
+  },
+  getCurrentWorkingDate: function() {
+    return this.state.selectedDate ? this.state.selectedDate : this.state.viewDate;
   },
   componentWillReceiveProps: function(nextProps) {
     if(moment(nextProps.dateTime, nextProps.format, true).isValid()) {
@@ -75,7 +82,7 @@ DateTimeField = React.createClass({
     if (moment(value, this.state.inputFormat, true).isValid()) {
       this.setState({
         selectedDate: moment(value, this.state.inputFormat, true),
-        viewDate: moment(value, this.state.inputFormat, true).startOf("month")
+        viewDate: moment(value, this.state.inputFormat, true)
       });
     }
 
@@ -94,30 +101,30 @@ DateTimeField = React.createClass({
       else if(target.className.includes("old")) month = this.state.viewDate.month() - 1;
       else month = this.state.viewDate.month();
       return this.setState({
-        selectedDate: this.state.viewDate.clone().month(month).date(parseInt(e.target.innerHTML)).hour(this.state.selectedDate.hours()).minute(this.state.selectedDate.minutes())
+        selectedDate: this.state.viewDate.clone().month(month).date(parseInt(e.target.innerHTML)).hour(this.state.viewDate.hours()).minute(this.state.viewDate.minutes())
       }, function() {
         this.closePicker();
-        this.props.onChange(this.state.selectedDate.format(this.props.format));
+        this.props.onChange(this.getCurrentWorkingDate().format(this.props.format));
         return this.setState({
-          inputValue: this.state.selectedDate.format(this.state.inputFormat)
+          inputValue: this.getCurrentWorkingDate().format(this.state.inputFormat)
         });
       });
     }
   },
   setSelectedHour: function(e) {
     return this.setState({
-      selectedDate: this.state.selectedDate.clone().hour(parseInt(e.target.innerHTML)).minute(this.state.selectedDate.minutes())
+      selectedDate: this.getCurrentWorkingDate().clone().hour(parseInt(e.target.innerHTML)).minute(this.getCurrentWorkingDate().minutes())
     }, function() {
       this.closePicker();
-      this.props.onChange(this.state.selectedDate.format(this.props.format));
+      this.props.onChange(this.getCurrentWorkingDate().format(this.props.format));
       return this.setState({
-        inputValue: this.state.selectedDate.format(this.state.inputFormat)
+        inputValue: this.getCurrentWorkingDate().format(this.state.inputFormat)
       });
     });
   },
   setSelectedMinute: function(e) {
     return this.setState({
-      selectedDate: this.state.selectedDate.clone().hour(this.state.selectedDate.hours()).minute(parseInt(e.target.innerHTML))
+      selectedDate: this.getCurrentWorkingDate().clone().hour(this.state.viewDate.hours()).minute(parseInt(e.target.innerHTML))
     }, function() {
       this.closePicker();
       this.props.onChange(this.state.selectedDate.format(this.props.format));
@@ -138,21 +145,23 @@ DateTimeField = React.createClass({
   },
   addMinute: function() {
     return this.setState({
-      selectedDate: this.state.selectedDate.clone().add(1, "minutes")
+      selectedDate: this.getCurrentWorkingDate().clone().add(1, "minutes")
     }, function() {
-      this.props.onChange(this.state.selectedDate.format(this.props.format));
+      this.props.onChange(this.getCurrentWorkingDate().format(this.props.format));
       return this.setState({
-        inputValue: this.state.selectedDate.format(this.props.inputFormat)
+        inputValue: this.getCurrentWorkingDate().format(this.state.inputFormat),
+        viewDate: this.getCurrentWorkingDate()
       });
     });
   },
   addHour: function() {
     return this.setState({
-      selectedDate: this.state.selectedDate.clone().add(1, "hours")
+      selectedDate: this.getCurrentWorkingDate().clone().add(1, "hours")
     }, function() {
-      this.props.onChange(this.state.selectedDate.format(this.props.format));
+      this.props.onChange(this.getCurrentWorkingDate().format(this.props.format));
       return this.setState({
-        inputValue: this.state.selectedDate.format(this.props.inputFormat)
+        inputValue: this.getCurrentWorkingDate().format(this.state.inputFormat),
+        viewDate: this.getCurrentWorkingDate()
       });
     });
   },
@@ -173,21 +182,23 @@ DateTimeField = React.createClass({
   },
   subtractMinute: function() {
     return this.setState({
-      selectedDate: this.state.selectedDate.clone().subtract(1, "minutes")
+      selectedDate: this.getCurrentWorkingDate().clone().subtract(1, "minutes")
     }, function() {
-      this.props.onChange(this.state.selectedDate.format(this.props.format));
+      this.props.onChange(this.getCurrentWorkingDate().format(this.props.format));
       return this.setState({
-        inputValue: this.state.selectedDate.format(this.props.inputFormat)
+        inputValue: this.getCurrentWorkingDate().format(this.state.inputFormat),
+        viewDate: this.getCurrentWorkingDate()
       });
     });
   },
   subtractHour: function() {
     return this.setState({
-      selectedDate: this.state.selectedDate.clone().subtract(1, "hours")
+      selectedDate: this.getCurrentWorkingDate().clone().subtract(1, "hours")
     }, function() {
-      this.props.onChange(this.state.selectedDate.format(this.props.format));
+      this.props.onChange(this.getCurrentWorkingDate().format(this.props.format));
       return this.setState({
-        inputValue: this.state.selectedDate.format(this.props.inputFormat)
+        inputValue: this.getCurrentWorkingDate().format(this.state.inputFormat),
+        viewDate: this.getCurrentWorkingDate()
       });
     });
   },
@@ -207,10 +218,10 @@ DateTimeField = React.createClass({
     });
   },
   togglePeriod: function() {
-    if (this.state.selectedDate.hour() > 12) {
-      return this.onChange(this.state.selectedDate.clone().subtract(12, 'hours').format(this.state.inputFormat));
+    if (this.getCurrentWorkingDate().hour() > 12) {
+      return this.onChange(this.getCurrentWorkingDate().clone().subtract(12, 'hours').format(this.state.inputFormat));
     } else {
-      return this.onChange(this.state.selectedDate.clone().add(12, 'hours').format(this.state.inputFormat));
+      return this.onChange(this.getCurrentWorkingDate().clone().add(12, 'hours').format(this.state.inputFormat));
     }
   },
   togglePicker: function() {
@@ -218,6 +229,12 @@ DateTimeField = React.createClass({
       showDatePicker: !this.state.showDatePicker,
       showTimePicker: !this.state.showTimePicker
     });
+  },
+  clearDate: function() {
+    this.state.selectedDate = null;
+    this.state.inputValue = null;
+    this.state.viewDate = moment().startOf('month');
+    this.forceUpdate();
   },
   onClick: function() {
     var classes, gBCR, offset, placePosition, scrollTop, styles;
@@ -290,7 +307,7 @@ DateTimeField = React.createClass({
     }
   },
   render: function() {
-    var inputClasses = React.addons.classSet({
+    var inputClasses = classNames({
       'form-control': true,
       placeholder: this.props.defaultText === this.state.inputValue
     });
@@ -329,8 +346,15 @@ DateTimeField = React.createClass({
                   togglePeriod={this.togglePeriod}
             />
             <div className="input-group date" ref="datetimepicker">
-              <input type="text" className={inputClasses} onChange={this.onChange} value={this.state.inputValue} {...this.props.inputProps}/>
-              <span className="input-group-addon" onClick={this.onClick} onBlur={this.onBlur} ref="dtpbutton"><Glyphicon glyph={this.state.buttonIcon} /></span>
+              <input type="text" className={inputClasses} onChange={this.onChange} onFocus={this.onClick} value={this.state.inputValue} placeholder={this.props.placeholder} {...this.props.inputProps}/>
+              {
+                  this.props.clearable && this.state.selectedDate ?
+                      <span className="input-group-addon" onClick={this.clearDate}>x</span> :
+                      null
+              }
+              <span className="input-group-addon" onClick={this.onClick} onBlur={this.onBlur} ref="dtpbutton">
+                <Glyphicon glyph={this.state.buttonIcon} />
+              </span>
             </div>
           </div>
     );
