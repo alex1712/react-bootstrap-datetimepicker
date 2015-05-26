@@ -51,6 +51,16 @@ DateTimeField = React.createClass({
         return "MM/DD/YY h:mm A";
     }
   },
+  getInitialViewDate: function(props) {
+    props = props ? props : this.props;
+    if (props.value) {
+      return moment(props.value, props.format, true);
+    } else if (props.minDate) {
+      return props.minDate.startOf("month");
+    } else {
+      return props.dateTime ? moment(props.dateTime, props.format, true).startOf("month") : moment().startOf("month");
+    }
+  },
   getInitialState: function() {
     return {
       showDatePicker: this.props.mode !== Constants.MODE_TIME,
@@ -63,10 +73,18 @@ DateTimeField = React.createClass({
         left: -9999,
         zIndex: '9999 !important'
       },
-      viewDate: this.props.dateTime ? moment(this.props.dateTime, this.props.format, true).startOf("month") : moment().startOf("month"),
+      viewDate: this.getInitialViewDate(),
       selectedDate: this.props.value ? moment(this.props.value, this.props.format, true) : null,
       inputValue: typeof this.props.value != 'undefined' ?  moment(this.props.value, this.props.format, true).format(this.resolvePropsInputFormat()) : null
     };
+  },
+  clearDate: function() {
+    this.state.selectedDate = null;
+    this.state.inputValue = null;
+    this.state.viewDate = this.getInitialViewDate();
+    this.forceUpdate(function() {
+      this.props.onChange(null);
+    });
   },
   getCurrentWorkingDate: function() {
     return this.state.selectedDate ? this.state.selectedDate : this.state.viewDate;
@@ -231,14 +249,6 @@ DateTimeField = React.createClass({
     return this.setState({
       showDatePicker: !this.state.showDatePicker,
       showTimePicker: !this.state.showTimePicker
-    });
-  },
-  clearDate: function() {
-    this.state.selectedDate = null;
-    this.state.inputValue = null;
-    this.state.viewDate = moment().startOf('month');
-    this.forceUpdate(function() {
-      this.props.onChange(null);
     });
   },
   onClick: function() {

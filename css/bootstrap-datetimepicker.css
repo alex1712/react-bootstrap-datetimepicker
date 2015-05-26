@@ -195,7 +195,8 @@
   cursor: pointer;
   position: absolute;
   z-index: 10;
-  right: 11%;
+  left: calc(100% - 57px);
+  color: #dddddd;
   line-height: 32px;
 }
 .bootstrap-datetimepicker-widget.left-oriented:before {
