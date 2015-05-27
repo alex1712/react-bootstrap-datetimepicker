@@ -29,9 +29,6 @@ DateTimePickerTime = React.createClass({
       hoursDisplayed: false
     };
   },
-  getCurrentWorkingDate: function() {
-    return this.props.selectedDate ? this.props.selectedDate : this.props.viewDate;
-  },
   goBack: function() {
     return this.setState({
       minutesDisplayed: false,
@@ -79,15 +76,15 @@ DateTimePickerTime = React.createClass({
             </tr>
 
             <tr>
-              <td><span className="timepicker-hour" onClick={this.showHours}>{this.getCurrentWorkingDate().format('h')}</span></td>
+              <td><span className="timepicker-hour" onClick={this.showHours}>{this.props.viewDate.format('h')}</span></td>
 
               <td className="separator">:</td>
 
-              <td><span className="timepicker-minute" onClick={this.showMinutes}>{this.getCurrentWorkingDate().format('mm')}</span></td>
+              <td><span className="timepicker-minute" onClick={this.showMinutes}>{this.props.viewDate.format('mm')}</span></td>
 
               <td className="separator"></td>
 
-              <td><button className="btn btn-primary" onClick={this.props.togglePeriod} type="button">{this.getCurrentWorkingDate().format('A')}</button></td>
+              <td><button className="btn btn-primary" onClick={this.props.togglePeriod} type="button">{this.props.viewDate.format('A')}</button></td>
             </tr>
 
             <tr>

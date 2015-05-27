@@ -92,9 +92,13 @@ DateTimeField = React.createClass({
   componentWillReceiveProps: function(nextProps) {
     if(this.props.value !== nextProps.value) {
       return this.setState({
-        viewDate: nextProps.dateTime ? moment(nextProps.dateTime, nextProps.format, true).startOf("month") : moment().startOf("month"),
+        viewDate: this.getInitialViewDate(nextProps),
         selectedDate: nextProps.value ? moment(nextProps.value, nextProps.format, true) : null,
         inputValue: typeof nextProps.value != 'undefined' ?  moment(nextProps.value, nextProps.format, true).format(this.resolvePropsInputFormat(nextProps)) : null
+      });
+    } else if(this.props.minDate !== nextProps.minDate) {
+      return this.setState({
+        viewDate: this.getInitialViewDate(nextProps)
       });
     }
   },
@@ -127,6 +131,7 @@ DateTimeField = React.createClass({
         this.closePicker();
         this.props.onChange(this.getCurrentWorkingDate().format(this.props.format));
         return this.setState({
+          viewDate: this.getCurrentWorkingDate(),
           inputValue: this.getCurrentWorkingDate().format(this.state.inputFormat)
         });
       });

@@ -70,10 +70,10 @@ var Basic = React.createClass({
 					<div className="col-xs-12">
 						minDate and maxDate
 						<DateTimeField
-							minDate={moment().subtract(1, 'days')}
-							maxDate={moment().add(1, 'days')}
+							minDate={moment().add(2, 'months')}
+							maxDate={moment().add(4, 'months')}
 							/>
-						<pre> {'<DateTimeField daysOfWeekDisabled={[0,1,2]} />'} </pre>
+						<pre> {'<DateTimeField minDate={moment().add(2, "months")} maxDate={moment().add(4, "months")}/>'} </pre>
 					</div>
 				</div>
 				<div className="row">

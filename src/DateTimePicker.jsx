@@ -73,7 +73,6 @@ DateTimePicker = React.createClass({
       <li>
         <DateTimePickerTime
               viewDate={this.props.viewDate}
-              selectedDate={this.props.selectedDate}
               setSelectedHour={this.props.setSelectedHour}
               setSelectedMinute={this.props.setSelectedMinute}
               addHour={this.props.addHour}
