@@ -119,7 +119,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (props.value) {
 	      return moment(props.value, props.format, true);
 	    } else if (props.minDate) {
-	      return props.minDate.startOf("month");
+	      return props.minDate.clone().startOf("month");
 	    } else {
 	      return props.dateTime ? moment(props.dateTime, props.format, true).startOf("month") : moment().startOf("month");
 	    }
@@ -546,7 +546,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      React.createElement("li", null, 
 	        React.createElement(DateTimePickerTime, {
 	              viewDate: this.props.viewDate, 
-	              selectedDate: this.props.selectedDate, 
 	              setSelectedHour: this.props.setSelectedHour, 
 	              setSelectedMinute: this.props.setSelectedMinute, 
 	              addHour: this.props.addHour, 
@@ -835,9 +834,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      hoursDisplayed: false
 	    };
 	  },
-	  getCurrentWorkingDate: function() {
-	    return this.props.selectedDate ? this.props.selectedDate : this.props.viewDate;
-	  },
 	  goBack: function() {
 	    return this.setState({
 	      minutesDisplayed: false,
@@ -885,15 +881,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	            ), 
 
 	            React.createElement("tr", null, 
-	              React.createElement("td", null, React.createElement("span", {className: "timepicker-hour", onClick: this.showHours}, this.getCurrentWorkingDate().format('h'))), 
+	              React.createElement("td", null, React.createElement("span", {className: "timepicker-hour", onClick: this.showHours}, this.props.viewDate.format('h'))), 
 
 	              React.createElement("td", {className: "separator"}, ":"), 
 
-	              React.createElement("td", null, React.createElement("span", {className: "timepicker-minute", onClick: this.showMinutes}, this.getCurrentWorkingDate().format('mm'))), 
+	              React.createElement("td", null, React.createElement("span", {className: "timepicker-minute", onClick: this.showMinutes}, this.props.viewDate.format('mm'))), 
 
 	              React.createElement("td", {className: "separator"}), 
 
-	              React.createElement("td", null, React.createElement("button", {className: "btn btn-primary", onClick: this.props.togglePeriod, type: "button"}, this.getCurrentWorkingDate().format('A')))
+	              React.createElement("td", null, React.createElement("button", {className: "btn btn-primary", onClick: this.props.togglePeriod, type: "button"}, this.props.viewDate.format('A')))
 	            ), 
 
 	            React.createElement("tr", null, 
@@ -1144,10 +1140,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    selectedDate: React.PropTypes.object,
 	    setViewYear: React.PropTypes.func.isRequired
 	  },
+	  getSelectedDate: function() {
+	    return this.props.selectedDate ? this.props.selectedDate : this.props.viewDate;
+	  },
 	  renderYears: function() {
 	    var classes, i, year, years;
 	    years = [];
-	    year = parseInt(this.props.viewDate.year() / 10, 10) * 10;
+	    year = parseInt(this.getSelectedDate().year() / 10, 10) * 10;
 	    year--;
 	    i = -1;
 	    while (i < 11) {

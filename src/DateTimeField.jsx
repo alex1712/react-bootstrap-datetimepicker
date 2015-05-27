@@ -56,7 +56,7 @@ DateTimeField = React.createClass({
     if (props.value) {
       return moment(props.value, props.format, true);
     } else if (props.minDate) {
-      return props.minDate.startOf("month");
+      return props.minDate.clone().startOf("month");
     } else {
       return props.dateTime ? moment(props.dateTime, props.format, true).startOf("month") : moment().startOf("month");
     }
