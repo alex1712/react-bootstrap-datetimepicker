@@ -80,7 +80,7 @@ DateTimeField = React.createClass({
     }
   },
   resolvePropsInputFormat: function(props) {
-    props = props ? props : this.props;
+    props = props || this.props;
     if(props.inputFormat) return props.inputFormat;
     switch(props.mode) {
       case Constants.MODE_TIME:
