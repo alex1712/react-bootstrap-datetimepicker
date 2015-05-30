@@ -22,11 +22,11 @@ var Basic = React.createClass({
 				</div>
 				<div className="row">
 					<div className="col-xs-12">
-						Example with default Text
+						Example with custom placeholder
 						<DateTimeField
-							placeholder="Please select a date"
+							placeholder="Selecciona una fecha"
 							/>
-						<pre> {'<DateTimeField placeholder="Please select a date" />'} </pre>
+						<pre> {'<DateTimeField placeholder="Selecciona una fecha" />'} </pre>
 					</div>
 				</div>
 				<div className="row">
@@ -50,7 +50,7 @@ var Basic = React.createClass({
                 </div>
 				<div className="row">
                     <div className="col-xs-12">
-                        just time picker
+                        Just time picker
                         <DateTimeField
                             mode="time"
                             />
@@ -59,7 +59,7 @@ var Basic = React.createClass({
 				</div>
                 <div className="row">
                     <div className="col-xs-12">
-                        just date picker
+                        Just date picker
                         <DateTimeField
                             mode="date"
                             />
@@ -78,7 +78,7 @@ var Basic = React.createClass({
 				</div>
 				<div className="row">
 					<div className="col-xs-12">
-						clearable
+						Clearable
 						<DateTimeField
 							clearable={true}
 							/>
@@ -101,7 +101,7 @@ var Basic = React.createClass({
 				</div>
 				<div className="row">
 					<div className="col-xs-12">
-						disables
+						Disables
 						<DateTimeField disabled={true}/>
 						<pre> {'<DateTimeField disabled={true} />'} </pre>
 						<DateTimeField disabled={true} value="1432646535471"/>
