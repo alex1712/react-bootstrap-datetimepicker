@@ -7,9 +7,9 @@ DateTimePicker = require('./DateTimePicker');
 
 moment = require('moment');
 
-Glyphicon = require('react-bootstrap').Glyphicon;
+var Glyphicon = require('react-bootstrap').Glyphicon;
 
-Constants = require('./Constants');
+var Constants = require('./Constants');
 
 DateTimeField = React.createClass({
   propTypes: {
@@ -39,18 +39,6 @@ DateTimeField = React.createClass({
       onChange: function (x) {}
     };
   },
-  resolvePropsInputFormat: function(props) {
-    props = props ? props : this.props;
-    if(props.inputFormat) return props.inputFormat;
-    switch(props.mode) {
-      case Constants.MODE_TIME:
-        return "h:mm A";
-      case Constants.MODE_DATE:
-        return "MM/DD/YY";
-      default:
-        return "MM/DD/YY h:mm A";
-    }
-  },
   getInitialViewDate: function(props) {
     props = props ? props : this.props;
     if (props.value) {
@@ -75,31 +63,32 @@ DateTimeField = React.createClass({
       },
       viewDate: this.getInitialViewDate(),
       selectedDate: this.props.value ? moment(this.props.value, this.props.format, true) : null,
-      inputValue: typeof this.props.value != 'undefined' ?  moment(this.props.value, this.props.format, true).format(this.resolvePropsInputFormat()) : null
+      inputValue: this.props.value ?  moment(this.props.value, this.props.format, true).format(this.resolvePropsInputFormat()) : null
     };
-  },
-  clearDate: function() {
-    this.state.selectedDate = null;
-    this.state.inputValue = null;
-    this.state.viewDate = this.getInitialViewDate();
-    this.forceUpdate(function() {
-      this.props.onChange(null);
-    });
-  },
-  getCurrentWorkingDate: function() {
-    return this.state.selectedDate ? this.state.selectedDate : this.state.viewDate;
   },
   componentWillReceiveProps: function(nextProps) {
     if(this.props.value !== nextProps.value) {
       return this.setState({
         viewDate: this.getInitialViewDate(nextProps),
         selectedDate: nextProps.value ? moment(nextProps.value, nextProps.format, true) : null,
-        inputValue: typeof nextProps.value != 'undefined' ?  moment(nextProps.value, nextProps.format, true).format(this.resolvePropsInputFormat(nextProps)) : null
+        inputValue: nextProps.value ?  moment(nextProps.value, nextProps.format, true).format(this.resolvePropsInputFormat(nextProps)) : null
       });
     } else if(this.props.minDate !== nextProps.minDate) {
       return this.setState({
         viewDate: this.getInitialViewDate(nextProps)
       });
+    }
+  },
+  resolvePropsInputFormat: function(props) {
+    props = props ? props : this.props;
+    if(props.inputFormat) return props.inputFormat;
+    switch(props.mode) {
+      case Constants.MODE_TIME:
+        return "h:mm A";
+      case Constants.MODE_DATE:
+        return "MM/DD/YY";
+      default:
+        return "MM/DD/YY h:mm A";
     }
   },
   onChange: function(event) {
@@ -117,6 +106,17 @@ DateTimeField = React.createClass({
       return this.props.onChange(moment(this.state.inputValue, this.state.inputFormat, true).format(this.props.format));
     });
 
+  },
+  clearDate: function() {
+    this.state.selectedDate = null;
+    this.state.inputValue = null;
+    this.state.viewDate = this.getInitialViewDate();
+    this.forceUpdate(function() {
+      this.props.onChange();
+    });
+  },
+  getCurrentWorkingDate: function() {
+    return this.state.selectedDate ? this.state.selectedDate.clone() : this.state.viewDate.clone();
   },
   setSelectedDate: function(e) {
     var target = e.target;
@@ -312,8 +312,7 @@ DateTimeField = React.createClass({
     });
   },
   renderOverlay: function() {
-    var styles;
-    styles = {
+    var styles = {
       position: 'fixed',
       top: 0,
       bottom: 0,
@@ -328,10 +327,6 @@ DateTimeField = React.createClass({
     }
   },
   render: function() {
-    var inputClasses = classNames({
-      'form-control': true,
-      placeholder: this.props.defaultText === this.state.inputValue
-    });
     return (
           <div>
             {this.renderOverlay()}
@@ -367,7 +362,7 @@ DateTimeField = React.createClass({
                   togglePeriod={this.togglePeriod}
             />
             <div className="input-group date" ref="datetimepicker">
-              <input type="text" className={inputClasses} onChange={this.onChange} onFocus={this.onClick} disabled={this.props.disabled}
+              <input type="text" className="form-control" onChange={this.onChange} onFocus={this.onClick} disabled={this.props.disabled}
                      value={this.state.inputValue} placeholder={this.props.placeholder} {...this.props.inputProps}/>
               {
                   this.props.clearable && this.state.selectedDate && !this.props.disabled ?

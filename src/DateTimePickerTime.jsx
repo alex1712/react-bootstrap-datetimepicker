@@ -6,9 +6,9 @@ DateTimePickerMinutes = require('./DateTimePickerMinutes');
 
 DateTimePickerHours = require('./DateTimePickerHours');
 
-Glyphicon = require('react-bootstrap').Glyphicon;
+var Glyphicon = require('react-bootstrap').Glyphicon;
 
-Constants = require('./Constants');
+var Constants = require('./Constants');
 
 DateTimePickerTime = React.createClass({
   propTypes: {
@@ -19,7 +19,6 @@ DateTimePickerTime = React.createClass({
     subtractMinute: React.PropTypes.func.isRequired,
     addMinute: React.PropTypes.func.isRequired,
     viewDate: React.PropTypes.object.isRequired,
-    selectedDate: React.PropTypes.object,
     togglePeriod: React.PropTypes.func.isRequired,
     mode: React.PropTypes.oneOf([Constants.MODE_DATE, Constants.MODE_DATETIME, Constants.MODE_TIME])
   },

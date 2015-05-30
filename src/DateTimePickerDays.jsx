@@ -23,12 +23,9 @@ DateTimePickerDays = React.createClass({
       showToday: true
     };
   },
-  getSelectedDate: function() {
-    return this.props.selectedDate ? this.props.selectedDate : this.props.viewDate;
-  },
   renderDays: function() {
     var selectedDate, cells, classes, days, html, i, month, nextMonth, prevMonth, minDate, maxDate, row, year, _i, _len, _ref;
-    selectedDate = this.getSelectedDate();
+    selectedDate = this.props.selectedDate;
     year = this.props.viewDate.year();
     month = this.props.viewDate.month();
     prevMonth = this.props.viewDate.clone().subtract(1, "months");

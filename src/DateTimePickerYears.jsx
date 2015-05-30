@@ -11,20 +11,17 @@ DateTimePickerYears = React.createClass({
     selectedDate: React.PropTypes.object,
     setViewYear: React.PropTypes.func.isRequired
   },
-  getSelectedDate: function() {
-    return this.props.selectedDate ? this.props.selectedDate : this.props.viewDate;
-  },
   renderYears: function() {
     var classes, i, year, years;
     years = [];
-    year = parseInt(this.getSelectedDate().year() / 10, 10) * 10;
+    year = parseInt(this.props.viewDate.year() / 10, 10) * 10;
     year--;
     i = -1;
     while (i < 11) {
       classes = {
         year: true,
         old: i === -1 | i === 10,
-        active: this.props.viewDate.year() === year
+        active: this.props.selectedDate && this.props.selectedDate.year() === year
       };
       years.push(<span key={year} className={classNames(classes)} onClick={this.props.setViewYear}>{year}</span>);
       year++;

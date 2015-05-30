@@ -1,7 +1,8 @@
 var DateTimePickerMinutes, React;
 
 React = require('react');
-Glyphicon = require('react-bootstrap').Glyphicon;
+var Glyphicon = require('react-bootstrap').Glyphicon;
+var Constants = require('./Constants');
 
 DateTimePickerMinutes = React.createClass({
   propTypes: {
