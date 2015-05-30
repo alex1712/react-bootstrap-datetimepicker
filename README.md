@@ -29,19 +29,23 @@ API
 DateTimeField
 ========
 
-| Name         | Type    | Default | Description |
-| ------------ | ------- | ------- | ----------- |
-| **dateTime** | string  | moment().format('x') | Represents the inital dateTime, this string is then parsed by moment.js |
-| **format**   | string  | "x"     | Defines the format moment.js should use to parse and output the date to onChange |
-| **inputFormat** | string | "MM/DD/YY h:mm A" | Defines the way the date is represented in the HTML input |
-| **onChange** | function | x => console.log(x) | Callback trigger when the date changes |
-| **showToday** | boolean | true | Highlights today's date |
-| **daysOfWeekDisabled** | array of integer | [] | Disables clicking on some days. Goes from 0 (Sunday) to 6 (Saturday). |
-| **viewMode** | string or number | 'days' | The default view to display when the picker is shown. ('years', 'months', 'days') |
-| **inputProps** | object | undefined | Defines additional attributes for the input element of the component. |
-| **minDate** | moment | undefined | The earliest date allowed for entry in the calendar view. |
-| **maxDate** | moment | undefined | The latest date allowed for entry in the calendar view. |
-| **mode** | string | undefined | Allows to selectively display only the time picker ('time') or the date picker ('date') |
+| Name                    | Type                | Default               | Description |
+| ------------            | -------             | -------               | ----------- |
+| **dateTime**            | string              | moment().format('x')  | Represents the inital view dateTime, this string is then parsed by moment.js |
+| **value**               | string              | undefined             | Represent the selectedDate of the picker. |
+| **placeholder**         | string              | "Select a Date"       | Placeholder of the input field (replace defaultText). |
+| **clearable**           | boolean             | false                 | Defined if the selector should offer the possibility to clean the selected date. |
+| **disabled**            | boolean             | false                 | Defines if the selector its enabled or disabled. |
+| **format**              | string              | "x"                   | Defines the format moment.js should use to parse and output the date to onChange |
+| **inputFormat**         | string              | "MM/DD/YY h:mm A"     | Defines the way the date is represented in the HTML input |
+| **onChange**            | function            | x => console.log(x)   | Callback trigger when the date changes |
+| **showToday**           | boolean             | true                  | Highlights today's date |
+| **daysOfWeekDisabled**  | array of integer    | []                    | Disables clicking on some days. Goes from 0 (Sunday) to 6 (Saturday). |
+| **viewMode**            | string or number    | 'days'                | The default view to display when the picker is shown. ('years', 'months', 'days') |
+| **inputProps**          | object              | undefined             | Defines additional attributes for the input element of the component. |
+| **minDate**             | moment              | undefined             | The earliest date allowed for entry in the calendar view. |
+| **maxDate**             | moment              | undefined             | The latest date allowed for entry in the calendar view. |
+| **mode**                | string              | undefined             | Allows to selectively display only the time picker ('time') or the date picker ('date') |
 
 Update Warning
 ===============================
