@@ -1,10 +1,11 @@
 {
-  "name": "mnq-react-bootstrap-datetimepicker",
-  "version": "0.1.5",
+  "name": "react-bootstrap-datetimepicker",
+  "version": "0.0.17",
   "description": "A bootstrap datetime picker component for React.js",
+  "homepage": "http://dev.quri.com/react-bootstrap-datetimepicker/",
   "repository": {
     "type": "git",
-    "url": "http://github.com/alex1712/react-bootstrap-datetimepicker"
+    "url": "http://github.com/quri/react-bootstrap-datetimepicker"
   },
   "main": "./lib/DateTimeField.js",
   "scripts": {
@@ -22,7 +23,7 @@
     "datetimepicker",
     "datetime"
   ],
-  "author": "Alex",
+  "author": "Loïc CHOLLIER <loic@chollier.com>",
   "license": "MIT",
   "peerDependencies": {
     "react": ">=0.12"
