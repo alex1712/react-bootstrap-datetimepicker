@@ -1,6 +1,6 @@
 {
   "name": "mnq-react-bootstrap-datetimepicker",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "description": "A bootstrap datetime picker component for React.js",
   "repository": {
     "type": "git",

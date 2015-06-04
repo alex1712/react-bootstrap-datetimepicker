@@ -256,6 +256,17 @@ DateTimeField = React.createClass({
       showTimePicker: !this.state.showTimePicker
     });
   },
+
+  onKeyDown: function(event) {
+    if (this.state.disabled) return;
+
+    switch (event.keyCode) {
+      case 9: // tab
+          this.closePicker(event);
+        break;
+    }
+  },
+
   onClick: function() {
     if(this.props.disabled) return;
     var classes, gBCR, offset, placePosition, scrollTop, styles;
@@ -362,7 +373,7 @@ DateTimeField = React.createClass({
                   togglePeriod={this.togglePeriod}
             />
             <div className="input-group date" ref="datetimepicker">
-              <input type="text" className="form-control" onChange={this.onChange} onFocus={this.onClick} disabled={this.props.disabled}
+              <input type="text" className="form-control" onChange={this.onChange} onFocus={this.onClick} onKeyDown={this.onKeyDown} disabled={this.props.disabled}
                      value={this.state.inputValue} placeholder={this.props.placeholder} {...this.props.inputProps}/>
               {
                   this.props.clearable && this.state.selectedDate && !this.props.disabled ?

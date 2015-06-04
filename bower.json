@@ -1,6 +1,6 @@
 {
-  "name": "react-bootstrap-datetimepicker",
-  "version": "0.1.5",
+  "name": "mnq-react-bootstrap-datetimepicker",
+  "version": "0.1.7",
   "main": [
     "./dist/react-bootstrap-datetimepicker.min.js"
   ],
